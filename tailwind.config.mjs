@@ -22,6 +22,6 @@ export default {
   darkMode: "class",
   plugins: [
     nextui(),
-    require('@tailwindcss/animate')
+    require('tailwindcss-animate')
   ],
 };

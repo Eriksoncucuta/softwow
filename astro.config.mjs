@@ -11,11 +11,7 @@ export default defineConfig({
   },
   image: {
     service: {
-      entrypoint: 'astro/assets/services/sharp',
-      config: {
-        limitInputPixels: false,
-        processConcurrency: 1
-      }
+      entrypoint: 'astro/assets/services/noop'
     }
   }
 });

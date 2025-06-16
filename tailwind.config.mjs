@@ -8,6 +8,17 @@ export default {
   ],
   theme: {
     extend: {
+      colors: {
+        'journey-dark-bg': '#0B1229',
+        'journey-light-bg': '#162B53',
+        'journey-surface': '#204A89',
+        'journey-link': '#2A5D91',
+        'journey-highlight': '#A2D9E6',
+        'journey-text-light': '#EFF6F9',
+        'journey-cta-primary': '#FC6A10',
+        'journey-emphasis': '#FE9D17',
+        'journey-cta-text': '#0B1229',
+      },
       animation: {
         'fade-in': 'fadeIn 1s ease-in-out',
       },

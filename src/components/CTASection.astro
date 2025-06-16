@@ -1,0 +1,36 @@
+---
+// src/components/CTASection.astro
+export interface Props {
+  title: string;
+  subtitle?: string;
+  buttonText: string;
+  buttonLink: string;
+  background?: string;
+}
+
+const { 
+  title, 
+  subtitle, 
+  buttonText, 
+  buttonLink, 
+  background = 'bg-journey-dark-bg' // Usamos nuestro color por defecto
+} = Astro.props;
+---
+
+<section class:list={[background, "py-20"]} id="diagnostico">
+  <div class="container mx-auto px-4 text-center">
+    <div class="animate-fade-in">
+      <h2 class="text-4xl md:text-5xl font-black text-journey-text-light mb-6 leading-tight">
+        {title}
+      </h2>
+      {subtitle && (
+        <p class="text-xl text-journey-highlight mb-8 max-w-3xl mx-auto leading-relaxed">
+          {subtitle}
+        </p>
+      )}
+      <a href={buttonLink} class="inline-block bg-journey-cta-primary text-journey-cta-text px-8 py-4 rounded-lg font-bold text-lg hover:bg-journey-emphasis hover:scale-105 transition-all duration-300 shadow-xl">
+        {buttonText}
+      </a>
+    </div>
+  </div>
+</section>

@@ -1,216 +1,234 @@
 ---
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+
 interface Props {
-  title: string;
+	title: string;
+	description: string; // Añadimos la descripción para el SEO
 }
 
-const { title } = Astro.props;
+const { title, description } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en" class="scroll-smooth ease-in-out delay-1000">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="description" content="Astro description" />
-    <meta name="viewport" content="width=device-width" />
-    <link rel="icon" href="/image/softwow-blanco.webp" type="image/webp" />
-    <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
-  </head>
-  <body class="dark">
-    <slot />
-  </body>
+<html lang="es" class="scroll-smooth">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" href="/image/softwow-blanco.webp" type="image/webp" />
+		<meta name="generator" content={Astro.generator} />
+		
+		<title>{title}</title>
+		<meta name="description" content={description} />
+
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:type" content="website" />
+		<meta property="og:image" content="/og-image-softwow.jpg" /> {/* Crea una imagen con este nombre en la carpeta /public */}
+	</head>
+
+	<body class="dark">
+    <header> 
+		<Navbar />
+    </header>
+		<main>
+			<slot />
+		</main>
+		<Footer />
+
+	</body>
 </html>
 
 <style is:global lang="scss">
-  :root {
-    --accent: 136, 58, 234;
-    --accent-light: 224, 204, 250;
-    --accent-dark: 49, 10, 101;
-    --accent-gradient: linear-gradient(
-      45deg,
-      rgb(var(--accent)),
-      rgb(var(--accent-light)) 30%,
-      white 60%
-    );
-  }
-  $pink: #db00ff;
-  $basic-purple: #7743db;
-  $yellow: rgb(161, 224, 13);
-  $gradient-purple: linear-gradient(90deg, #db00ff 1%, #8a8afffc 93.03%);
+	:root {
+		--accent: 136, 58, 234;
+		--accent-light: 224, 204, 250;
+		--accent-dark: 49, 10, 101;
+		--accent-gradient: linear-gradient(
+			45deg,
+			rgb(var(--accent)),
+			rgb(var(--accent-light)) 30%,
+			white 60%
+		);
+	}
+	$pink: #db00ff;
+	$basic-purple: #7743db;
+	$yellow: rgb(161, 224, 13);
+	$gradient-purple: linear-gradient(90deg, #db00ff 1%, #8a8afffc 93.03%);
 
-  body {
-    font-family: "Coolvetica", sans-serif;
-  }
-  @font-face {
-    font-family: "Coolvetica";
-    src: url("fonts/Coolvetica-Rg-t.otf") format("otf");
-  }
+	body {
+		font-family: "Coolvetica", sans-serif;
+	}
+	@font-face {
+		font-family: "Coolvetica";
+		src: url("/fonts/Coolvetica-Rg-t.otf") format("otf");
+	}
 
-  .text-pink {
-    color: $pink;
-  }
-  .text-purple {
-    color: $basic-purple;
-  }
-  .text-gradient-purple {
-    background: $gradient-purple;
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  .shadow-white {
-    text-shadow: 0 0 3px rgba(255, 255, 255, 0.3);
-  }
-  .border-outline {
-    outline: 1px;
-  }
-  .slide-in-top {
-    -webkit-animation: slide-in-top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)
-      both;
-    animation: slide-in-top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-    transition: all;
-  }
-  .shake-vertical {
-    -webkit-animation: shake-vertical 18s
-      cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite both;
-    animation: shake-vertical 18s cubic-bezier(0.455, 0.03, 0.515, 0.955)
-      infinite both;
-  }
-  @-webkit-keyframes shake-vertical {
-    0%,
-    100% {
-      -webkit-transform: translateY(0);
-      transform: translateY(0);
-    }
-    10%,
-    30%,
-    50%,
-    70% {
-      -webkit-transform: translateY(-8px);
-      transform: translateY(-8px);
-    }
-    20%,
-    40%,
-    60% {
-      -webkit-transform: translateY(8px);
-      transform: translateY(8px);
-    }
-    80% {
-      -webkit-transform: translateY(6.4px);
-      transform: translateY(6.4px);
-    }
-    90% {
-      -webkit-transform: translateY(-6.4px);
-      transform: translateY(-6.4px);
-    }
-  }
-  @keyframes shake-vertical {
-    0%,
-    100% {
-      -webkit-transform: translateY(0);
-      transform: translateY(0);
-    }
-    10%,
-    30%,
-    50%,
-    70% {
-      -webkit-transform: translateY(-8px);
-      transform: translateY(-8px);
-    }
-    20%,
-    40%,
-    60% {
-      -webkit-transform: translateY(8px);
-      transform: translateY(8px);
-    }
-    80% {
-      -webkit-transform: translateY(6.4px);
-      transform: translateY(6.4px);
-    }
-    90% {
-      -webkit-transform: translateY(-6.4px);
-      transform: translateY(-6.4px);
-    }
-  }
+	.text-pink {
+		color: $pink;
+	}
+	.text-purple {
+		color: $basic-purple;
+	}
+	.text-gradient-purple {
+		background: $gradient-purple;
+		background-clip: text;
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+	}
+	.shadow-white {
+		text-shadow: 0 0 3px rgba(255, 255, 255, 0.3);
+	}
+	.border-outline {
+		outline: 1px;
+	}
+	.slide-in-top {
+		-webkit-animation: slide-in-top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+			both;
+		animation: slide-in-top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+		transition: all;
+	}
+	.shake-vertical {
+		-webkit-animation: shake-vertical 18s
+			cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite both;
+		animation: shake-vertical 18s cubic-bezier(0.455, 0.03, 0.515, 0.955)
+			infinite both;
+	}
+	@-webkit-keyframes shake-vertical {
+		0%,
+		100% {
+			-webkit-transform: translateY(0);
+			transform: translateY(0);
+		}
+		10%,
+		30%,
+		50%,
+		70% {
+			-webkit-transform: translateY(-8px);
+			transform: translateY(-8px);
+		}
+		20%,
+		40%,
+		60% {
+			-webkit-transform: translateY(8px);
+			transform: translateY(8px);
+		}
+		80% {
+			-webkit-transform: translateY(6.4px);
+			transform: translateY(6.4px);
+		}
+		90% {
+			-webkit-transform: translateY(-6.4px);
+			transform: translateY(-6.4px);
+		}
+	}
+	@keyframes shake-vertical {
+		0%,
+		100% {
+			-webkit-transform: translateY(0);
+			transform: translateY(0);
+		}
+		10%,
+		30%,
+		50%,
+		70% {
+			-webkit-transform: translateY(-8px);
+			transform: translateY(-8px);
+		}
+		20%,
+		40%,
+		60% {
+			-webkit-transform: translateY(8px);
+			transform: translateY(8px);
+		}
+		80% {
+			-webkit-transform: translateY(6.4px);
+			transform: translateY(6.4px);
+		}
+		90% {
+			-webkit-transform: translateY(-6.4px);
+			transform: translateY(-6.4px);
+		}
+	}
 
-  @-webkit-keyframes slide-in-top {
-    0% {
-      -webkit-transform: translateY(-1000px);
-      transform: translateY(-1000px);
-      opacity: 0;
-    }
-    100% {
-      -webkit-transform: translateY(0);
-      transform: translateY(0);
-      opacity: 1;
-    }
-  }
-  @keyframes slide-in-top {
-    0% {
-      -webkit-transform: translateY(-20px);
-      transform: translateY(-20px);
-      opacity: 0;
-    }
-    100% {
-      -webkit-transform: translateY(0);
-      transform: translateY(0);
-      opacity: 1;
-    }
-  }
-  @keyframes glitch_4011 {
-    0% {
-      clip-path: var(--move1);
-      transform: translate(0px, -10px);
-    }
+	@-webkit-keyframes slide-in-top {
+		0% {
+			-webkit-transform: translateY(-1000px);
+			transform: translateY(-1000px);
+			opacity: 0;
+		}
+		100% {
+			-webkit-transform: translateY(0);
+			transform: translateY(0);
+			opacity: 1;
+		}
+	}
+	@keyframes slide-in-top {
+		0% {
+			-webkit-transform: translateY(-20px);
+			transform: translateY(-20px);
+			opacity: 0;
+		}
+		100% {
+			-webkit-transform: translateY(0);
+			transform: translateY(0);
+			opacity: 1;
+		}
+	}
+	@keyframes glitch_4011 {
+		0% {
+			clip-path: var(--move1);
+			transform: translate(0px, -10px);
+		}
 
-    10% {
-      clip-path: var(--move2);
-      transform: translate(-10px, 10px);
-    }
+		10% {
+			clip-path: var(--move2);
+			transform: translate(-10px, 10px);
+		}
 
-    20% {
-      clip-path: var(--move3);
-      transform: translate(10px, 0px);
-    }
+		20% {
+			clip-path: var(--move3);
+			transform: translate(10px, 0px);
+		}
 
-    30% {
-      clip-path: var(--move4);
-      transform: translate(-10px, 10px);
-    }
+		30% {
+			clip-path: var(--move4);
+			transform: translate(-10px, 10px);
+		}
 
-    40% {
-      clip-path: var(--move5);
-      transform: translate(10px, -10px);
-    }
+		40% {
+			clip-path: var(--move5);
+			transform: translate(10px, -10px);
+		}
 
-    50% {
-      clip-path: var(--move6);
-      transform: translate(-10px, 10px);
-    }
+		50% {
+			clip-path: var(--move6);
+			transform: translate(-10px, 10px);
+		}
 
-    60% {
-      clip-path: var(--move1);
-      transform: translate(10px, -10px);
-    }
+		60% {
+			clip-path: var(--move1);
+			transform: translate(10px, -10px);
+		}
 
-    70% {
-      clip-path: var(--move3);
-      transform: translate(-10px, 10px);
-    }
+		70% {
+			clip-path: var(--move3);
+			transform: translate(-10px, 10px);
+		}
 
-    80% {
-      clip-path: var(--move2);
-      transform: translate(10px, -10px);
-    }
+		80% {
+			clip-path: var(--move2);
+			transform: translate(10px, -10px);
+		}
 
-    90% {
-      clip-path: var(--move4);
-      transform: translate(-10px, 10px);
-    }
+		90% {
+			clip-path: var(--move4);
+			transform: translate(-10px, 10px);
+		}
 
-    100% {
-      clip-path: var(--move1);
-      transform: translate(0);
-    }
-  }
+		100% {
+			clip-path: var(--move1);
+			transform: translate(0);
+		}
+	}
 </style>

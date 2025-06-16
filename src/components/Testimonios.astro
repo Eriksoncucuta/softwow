@@ -1,0 +1,52 @@
+---
+// src/components/Testimonios.astro
+
+const testimonials = [
+  {
+    initial: "M",
+    name: "María González",
+    title: "CEO, TechStart",
+    quote: "Ignite nos dio el rumbo claro que necesitábamos. En 30 días pasamos de tener ideas dispersas a un plan estratégico sólido que nos llevó a duplicar nuestros ingresos."
+  },
+  {
+    initial: "C",
+    name: "Carlos Ruiz",
+    title: "Director, InnovaLab",
+    quote: "Scale transformó completamente nuestra estrategia comercial. Con sus análisis de datos aumentamos nuestro ROI en marketing un 300% en apenas 6 meses."
+  },
+  {
+    initial: "C",
+    name: "Carlos Ruiz",
+    title: "Director, InnovaLab",
+    quote: "Scale transformó completamente nuestra estrategia comercial. Con sus análisis de datos aumentamos nuestro ROI en marketing un 300% en apenas 6 meses."
+  }
+];
+---
+<section id="testimonios">
+  <div class="container mx-auto px-4">
+    <div class="text-center mb-16 animate-fade-in">
+      <h2 class="text-4xl md:text-5xl font-bold text-journey-text-light mb-6">
+        Empresas que ya transformaron su futuro
+      </h2>
+    </div>
+    
+    <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+      {testimonials.map(testimonial => (
+        <div class="bg-journey-surface/30 border border-journey-link/30 rounded-xl p-8">
+          <div class="flex items-center mb-6">
+            <div class="w-16 h-16 bg-gradient-to-r from-journey-cta-primary to-journey-emphasis rounded-full flex items-center justify-center text-2xl font-bold text-journey-dark-bg mr-4">
+              {testimonial.initial}
+            </div>
+            <div>
+              <h4 class="text-journey-text-light font-bold">{testimonial.name}</h4>
+              <p class="text-journey-highlight">{testimonial.title}</p>
+            </div>
+          </div>
+          <p class="text-journey-text-light leading-relaxed italic">
+            "{testimonial.quote}"
+          </p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

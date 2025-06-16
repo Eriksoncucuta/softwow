@@ -1,9 +1,9 @@
 ---
+// src/components/Navbar.astro
 import { Image } from "astro:assets";
 import Menu from "../../public/icon/menu.svg";
 import Close from "../../public/icon/close.svg";
 import SoftwowLogo from "../../public/image/softwow-blanco.webp";
-
 
 interface Link {
   text?: string;
@@ -14,34 +14,33 @@ export interface Props {
   links?: Array<Link>;
 }
 
-const { links } = Astro.props;
+const links = Astro.props.links || [
+  { text: "Inicio", href: "/", ariaLabel: "inicio" },
+  { text: "Ignate", href: "/ignate", ariaLabel: "ignate" },
+  { text: "Build", href: "/build", ariaLabel: "build" },
+  { text: "Scale", href: "/scale", ariaLabel: "scale" },
+  { text: "Contacto", href: "#contacto", ariaLabel: "contacto" },
+];
 ---
 
 <header
-  class="fixed z-30 top-0 flex items-center w-full py-2 px-4 xl:px-20 justify-between bg-blue-950 bg-opacity-5"
+  id="main-header"
+  class="fixed z-30 top-0 flex items-center w-full py-2 px-4 xl:px-20 justify-between transition-colors duration-300 backdrop-blur-lg"
 >
   <div class="flex items-center gap-4">
     <a href="/">
-      <Image
-        src={SoftwowLogo}
-        alt="Logo Softwow"
-        id="SoftwowLogo"
-        class="w-14"
-      />
+      <Image src={SoftwowLogo} alt="Logo Softwow" id="SoftwowLogo" class="w-14" />
     </a>
-
-    <a
-      href="/"
-      class="contents basis-0 text-3xl font-bold tracking-tight from-[#FF1CF7] to-[#b249f8] bg-clip-text text-white bg-gradient-to-b"
-    >
+    <a href="/" class="contents basis-0 text-3xl font-bold tracking-tight text-white">
       Softwow
     </a>
   </div>
-  <nav>
+
+  <nav class="flex items-center">
     <ul class="hidden lg:flex text-slate-200 font-semibold ease-in-out">
       {
         links?.map(({ text, href, ariaLabel }) => (
-          <li class="px-4 py-1 hover:text-blue-950 text-xl">
+          <li class="px-4 py-1 hover:text-journey-highlight text-xl transition-colors">
             <a href={href} aria-label={ariaLabel}>
               {text}
             </a>
@@ -49,33 +48,31 @@ const { links } = Astro.props;
         ))
       }
     </ul>
-    <Image
-      src={Menu}
-      alt="Open menu"
-      id="menuIcon"
-      class="rounded-3xl w-10 mx-auto flex lg:hidden transition-all duration-700 ease-in-out"
-    />
-
-    <Image
-      src={Close}
-      alt="Close menu"
-      id="closeIcon"
-      class="close-icon hidden menu-icon rounded-3xl w-10 mx-auto transition-transform duration-700 ease-in-out"
-    />
+    
+    <div id="menuIcon" class="w-10 cursor-pointer flex lg:hidden">
+      <Image src={Menu} alt="Abrir menú" class="w-full" />
+    </div>
+    <div id="closeIcon" class="hidden w-10 cursor-pointer">
+      <Image src={Close} alt="Cerrar menú" class="w-full" />
+    </div>
   </nav>
+
   <div
     id="menu-backdrop"
-    class="absolute bg-slate-200 backdrop-blur-lg rounded-lg left-[var(--left)]
-    top-[var(--top)] w-[var(--width)] h-[var(--height)]
-    transition-all duration-300 ease-in-out opacity-0 -z-10"
+    class:list={[
+      "absolute bg-journey-surface/20 backdrop-blur-md rounded-lg left-[var(--left)]",
+      "top-[var(--top)] w-[var(--width)] h-[var(--height)]",
+      "transition-all duration-300 ease-in-out opacity-0 -z-10",
+    ]}
   >
   </div>
 </header>
-<div class="hidden h-screen w-full z-20 transition-transform duration-700 ease-in-out overflow-hidden lg:hidden fixed" id="menuMobile">
-  <nav class="h-full text-lg bg-blue-950 bg-opacity-90 backdrop-blur-lg text-slate-200 justify-between flex flex-col pt-40">
-    <div class="items-start space-y-10 text-center">
+
+<div id="menuMobile" class="hidden h-screen w-full z-40 transition-transform duration-700 ease-in-out overflow-hidden lg:hidden fixed top-0">
+  <nav class="h-full text-lg bg-journey-dark-bg/95 backdrop-blur-xl text-slate-200 justify-center flex flex-col pt-20">
+    <div class="flex flex-col items-center space-y-8 text-center">
       {links?.map(({ text, href, ariaLabel }) => (
-        <a class="block w-full py-2 font-semibold" href={href} aria-label={ariaLabel}>
+        <a class="block w-full py-3 text-2xl font-semibold" href={href} aria-label={ariaLabel}>
           {text}
         </a>
       ))}
@@ -83,84 +80,67 @@ const { links } = Astro.props;
   </nav>
 </div>
 
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const menuIcon = document.getElementById("menuIcon") as HTMLElement;
-    const closeIcon = document.getElementById("closeIcon") as HTMLElement;
-    const menuMobile = document.getElementById("menuMobile") as HTMLElement;
-    const listItem = document.querySelectorAll("li");
-    const menuBackDrop = document.querySelector("#menu-backdrop") as HTMLElement;
-    const header = document.querySelector("header") as HTMLElement;
+<script client:load>
+  window.addEventListener("DOMContentLoaded", () => {
+    const header = document.getElementById("main-header");
+    const menuIcon = document.getElementById("menuIcon");
+    const closeIcon = document.getElementById("closeIcon");
+    const menuMobile = document.getElementById("menuMobile");
+    const listItem = document.querySelectorAll("#main-header nav li");
+    const menuBackDrop = document.querySelector("#menu-backdrop");
 
-    const toggleScrollLock = (lock:boolean) => {
-      document.body.classList.toggle("scroll-lock", lock);
+    if (!header || !menuIcon || !closeIcon || !menuMobile || !menuBackDrop) {
+      console.error("Missing required element(s):", { header, menuIcon, closeIcon, menuMobile, menuBackDrop });
+      return;
+    }
+
+    const toggleScrollLock = (lock) => {
+      document.body.style.overflow = lock ? "hidden" : "";
     };
 
-    const updateHeaderStyle = (isScrolled:boolean) => {
-      header.classList.toggle("bg-blue-950", isScrolled);
-      header.classList.toggle("shadow-lg", isScrolled);
-      header.classList.toggle("backdrop-blur-lg", isScrolled);
-      header.classList.toggle("bg-opacity-100", isScrolled);
-      header.classList.toggle("bg-transparent", !isScrolled);
-    };
-
-    const toggleIcons = () => {
-      const isMenuHidden = menuMobile.classList.toggle("hidden");
-      menuIcon.classList.toggle("hidden", !isMenuHidden);
-      closeIcon.classList.toggle("hidden", isMenuHidden);
-      toggleScrollLock(!isMenuHidden);
-
-      // Mantener el estado del header basado en el scroll
+    const updateHeaderStyle = () => {
       const isScrolled = window.scrollY > 50;
-      if (isMenuHidden && isScrolled) {
-        updateHeaderStyle(true);
-      } else if (!isMenuHidden) {
-        updateHeaderStyle(true);
-      } else {
-        updateHeaderStyle(false); // Vuelve a estado transparente si el scroll está en la posición inicial
-      }
+      header.classList.toggle("bg-journey-dark-bg/80", isScrolled);
+      header.classList.toggle("border-b", isScrolled);
+      header.classList.toggle("border-journey-link/20", isScrolled);
     };
 
-    const updateBackdropPosition = (item:HTMLElement) => {
-      const { left, top, width, height } = item.getBoundingClientRect();
-      menuBackDrop.style.setProperty("--left", `${left}px`);
-      menuBackDrop.style.setProperty("--top", `${top}px`);
-      menuBackDrop.style.setProperty("--width", `${width}px`);
-      menuBackDrop.style.setProperty("--height", `${height}px`);
+    const toggleMenu = () => {
+      menuMobile.classList.toggle("hidden");
+      menuIcon.classList.toggle("hidden");
+      closeIcon.classList.toggle("hidden");
+      toggleScrollLock(!menuMobile.classList.contains("hidden"));
     };
 
-    menuIcon.addEventListener("click", toggleIcons);
-    closeIcon.addEventListener("click", toggleIcons);
+    const closeMenu = () => {
+      menuMobile.classList.add("hidden");
+      menuIcon.classList.remove("hidden");
+      closeIcon.classList.add("hidden");
+      toggleScrollLock(false);
+    };
 
-    document.querySelectorAll("#menuMobile a").forEach((menuItem) => {
-      menuItem.addEventListener("click", toggleIcons);
+    menuIcon.addEventListener("click", toggleMenu);
+    closeIcon.addEventListener("click", toggleMenu);
+
+    document.querySelectorAll("#menuMobile a").forEach((link) => {
+      link.addEventListener("click", closeMenu);
     });
 
     listItem.forEach((item) => {
       item.addEventListener("mouseenter", () => {
-        updateBackdropPosition(item);
+        const { left, top, width, height } = item.getBoundingClientRect();
+        menuBackDrop.style.setProperty("--left", `${left}px`);
+        menuBackDrop.style.setProperty("--top", `${top}px`);
+        menuBackDrop.style.setProperty("--width", `${width}px`);
+        menuBackDrop.style.setProperty("--height", `${height}px`);
         menuBackDrop.style.opacity = "1";
-        menuBackDrop.style.visibility = "visible";
       });
-
       item.addEventListener("mouseleave", () => {
         menuBackDrop.style.opacity = "0";
-        menuBackDrop.style.visibility = "hidden";
       });
     });
 
-    window.addEventListener("scroll", () => {
-      const isScrolled = window.scrollY > 50;
-      updateHeaderStyle(isScrolled);
-    });
+    updateHeaderStyle();
+    window.addEventListener("scroll", updateHeaderStyle);
   });
 </script>
-
-
-
-
-<style>
-  body.scroll-lock {
-    overflow: hidden;
-  }
-</style>
